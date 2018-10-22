@@ -27,7 +27,7 @@ class CheckoutForm extends React.Component {
         shippingName: '',
         shippingState: '',
 
-        sameAsBilling: false
+        sameAsBilling: true
     };
 
     render() {
@@ -73,6 +73,7 @@ class CheckoutForm extends React.Component {
                         <label>
                             <input
                                 type="checkbox"
+                                checked={this.state.sameAsBilling}
                                 onChange={e => {
                                     this.setState({
                                         sameAsBilling: e.target.checked
@@ -84,7 +85,7 @@ class CheckoutForm extends React.Component {
                         <legend>Shipping Address</legend>
                         <p>
                             <label>
-                                Shipping Name:
+                                Shipping Name:{' '}
                                 <input
                                     type="text"
                                     value={
@@ -103,7 +104,7 @@ class CheckoutForm extends React.Component {
                         </p>
                         <p>
                             <label>
-                                Shipping State:
+                                Shipping State:{' '}
                                 <input
                                     type="text"
                                     size="2"
