@@ -15,56 +15,122 @@
 // - Save the state of the form and restore it when the page first loads, in
 //   case the user accidentally closes the tab before the form is submitted
 ////////////////////////////////////////////////////////////////////////////////
-import React from "react";
-import ReactDOM from "react-dom";
-import serializeForm from "form-serialize";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import serializeForm from 'form-serialize';
 
 class CheckoutForm extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>Checkout</h1>
-        <form>
-          <fieldset>
-            <legend>Billing Address</legend>
-            <p>
-              <label>
-                Billing Name: <input type="text" />
-              </label>
-            </p>
-            <p>
-              <label>
-                Billing State: <input type="text" size="2" />
-              </label>
-            </p>
-          </fieldset>
+    state = {
+        billingName: '',
+        billingState: '',
 
-          <br />
+        shippingName: '',
+        shippingState: '',
 
-          <fieldset>
-            <label>
-              <input type="checkbox" /> Same as billing
-            </label>
-            <legend>Shipping Address</legend>
-            <p>
-              <label>
-                Shipping Name: <input type="text" />
-              </label>
-            </p>
-            <p>
-              <label>
-                Shipping State: <input type="text" size="2" />
-              </label>
-            </p>
-          </fieldset>
+        sameAsBilling: false
+    };
 
-          <p>
-            <button>Submit</button>
-          </p>
-        </form>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div>
+                <h1>Checkout</h1>
+                <form>
+                    <fieldset>
+                        <legend>Billing Address</legend>
+                        <p>
+                            <label>
+                                Billing Name:{' '}
+                                <input
+                                    type="text"
+                                    onChange={e => {
+                                        this.setState({
+                                            billingName: e.target.value
+                                        });
+                                    }}
+                                />
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                Billing State:{' '}
+                                <input
+                                    type="text"
+                                    size="2"
+                                    maxLength="2"
+                                    onChange={e => {
+                                        this.setState({
+                                            billingState: e.target.value
+                                        });
+                                    }}
+                                />
+                            </label>
+                        </p>
+                    </fieldset>
+
+                    <br />
+
+                    <fieldset>
+                        <label>
+                            <input
+                                type="checkbox"
+                                onChange={e => {
+                                    this.setState({
+                                        sameAsBilling: e.target.checked
+                                    });
+                                }}
+                            />
+                            Same as billing
+                        </label>
+                        <legend>Shipping Address</legend>
+                        <p>
+                            <label>
+                                Shipping Name:
+                                <input
+                                    type="text"
+                                    value={
+                                        this.state.sameAsBilling
+                                            ? this.state.billingName
+                                            : this.state.shippingName
+                                    }
+                                    onChange={e => {
+                                        this.setState({
+                                            shippingName: e.target.value
+                                        });
+                                    }}
+                                    readOnly={this.state.sameAsBilling}
+                                />
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                Shipping State:
+                                <input
+                                    type="text"
+                                    size="2"
+                                    maxLength="2"
+                                    value={
+                                        this.state.sameAsBilling
+                                            ? this.state.billingState
+                                            : this.state.shippingState
+                                    }
+                                    onChange={e => {
+                                        this.setState({
+                                            shippingState: e.target.value
+                                        });
+                                    }}
+                                    readOnly={this.state.sameAsBilling}
+                                />
+                            </label>
+                        </p>
+                    </fieldset>
+
+                    <p>
+                        <button>Submit</button>
+                    </p>
+                </form>
+            </div>
+        );
+    }
 }
 
-ReactDOM.render(<CheckoutForm />, document.getElementById("app"));
+ReactDOM.render(<CheckoutForm />, document.getElementById('app'));

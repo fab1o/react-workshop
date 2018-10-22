@@ -1,5 +1,5 @@
-import $ from "jquery";
-import { search } from "./utils/searchWikipedia";
+import $ from 'jquery';
+import { search } from './utils/searchWikipedia';
 
 const html = `
 <div>
@@ -22,23 +22,23 @@ const html = `
 </div>
 `;
 
-$("#app").html(html); // <-- component
+$('#app').html(html); // <-- component
 
-$("#form")
-  .on("submit", event => {
-    // <-- state change
-    event.preventDefault();
-    const term = $("#input").val(); // <-- state
-    $("#loading").show(); // <-- time
-    $("#meta").hide(); // <-- time
-    $("#results").empty(); // <-- time
-    search(term, (err, results) => {
-      $("#loading").hide(); // <-- time
-      $("#meta").show(); // <-- time
-      $("#title").html(term); // <-- time
-      results.forEach(result => {
-        const li = $("<li/>");
-        const html = `
+$('#form')
+    .on('submit', event => {
+        // <-- state change
+        event.preventDefault();
+        const term = $('#input').val(); // <-- state
+        $('#loading').show(); // <-- time
+        $('#meta').hide(); // <-- time
+        $('#results').empty(); // <-- time
+        search(term, (err, results) => {
+            $('#loading').hide(); // <-- time
+            $('#meta').show(); // <-- time
+            $('#title').html(term); // <-- time
+            results.forEach(result => {
+                const li = $('<li/>');
+                const html = `
 <div>
   ${result.title}
   <button>show more</button>
@@ -47,29 +47,29 @@ $("#form")
   <p>${result.description}</p>
 </div>
 `;
-        li.html(html); // <-- time
-        if ($("#descending").is(":checked")) {
-          // <-- state
-          li.prependTo($("#results")); // <-- time
-        } else {
-          li.appendTo($("#results")); // <-- time
-        }
-        li.find("button").on("click", () => {
-          // <-- component
-          li.find(".toggler").toggle(); // <-- time
-          const isHidden = li.find(".toggler").is(":hidden"); // <-- state
-          li.find("button").html(isHidden ? "show more" : "hide"); // <-- time
+                li.html(html); // <-- time
+                if ($('#descending').is(':checked')) {
+                    // <-- state
+                    li.prependTo($('#results')); // <-- time
+                } else {
+                    li.appendTo($('#results')); // <-- time
+                }
+                li.find('button').on('click', () => {
+                    // <-- component
+                    li.find('.toggler').toggle(); // <-- time
+                    const isHidden = li.find('.toggler').is(':hidden'); // <-- state
+                    li.find('button').html(isHidden ? 'show more' : 'hide'); // <-- time
+                });
+            });
         });
-      });
-    });
-  })
-  .trigger("submit"); // <-- state change
+    })
+    .trigger('submit'); // <-- state change
 
-$("#descending").on("click", event => {
-  // <-- state change
-  $("#results li").each((i, li) => {
-    $("#results").prepend(li); // <-- time
-  });
+$('#descending').on('click', event => {
+    // <-- state change
+    $('#results li').each((i, li) => {
+        $('#results').prepend(li); // <-- time
+    });
 });
 
 // What's awesome:

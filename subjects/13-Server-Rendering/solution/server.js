@@ -1,11 +1,11 @@
-import http from "http";
-import React from "react";
-import ReactDOMServer from "react-dom/server";
+import http from 'http';
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 
-import fetchContacts from "./fetchContacts";
-import App from "./App";
+import fetchContacts from './fetchContacts';
+import App from './App';
 
-const webpackServer = "http://localhost:8080";
+const webpackServer = 'http://localhost:8080';
 const port = 8090;
 
 const createPage = (markup, data) => `
@@ -27,21 +27,21 @@ const createPage = (markup, data) => `
 `;
 
 const app = http.createServer((req, res) => {
-  fetchContacts((error, contacts) => {
-    const markup = ReactDOMServer.renderToString(
-      <App contacts={contacts} />
-    );
-    const html = createPage(markup, { contacts });
+    fetchContacts((error, contacts) => {
+        const markup = ReactDOMServer.renderToString(
+            <App contacts={contacts} />
+        );
+        const html = createPage(markup, { contacts });
 
-    res.writeHead(200, {
-      "Content-Type": "text/html",
-      "Content-Length": html.length
+        res.writeHead(200, {
+            'Content-Type': 'text/html',
+            'Content-Length': html.length
+        });
+
+        res.end(html);
     });
-
-    res.end(html);
-  });
 });
 
 app.listen(port, () => {
-  console.log("\nOpen http://localhost:%s", port);
+    console.log('\nOpen http://localhost:%s', port);
 });

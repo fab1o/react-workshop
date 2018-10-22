@@ -1,44 +1,109 @@
-import "./styles.css";
+import './styles.css';
 
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
-let isOpen = false;
+class ContentToggle extends React.Component {
+    static defaultProps = {
+        summary: 'Tacos'
+    };
 
-function handleClick() {
-  isOpen = !isOpen;
-  updateThePage();
+    static propTypes = {
+        summary: PropTypes.string.isRequired,
+        children: PropTypes.node,
+        onToggle: PropTypes.func
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isOpen: false
+        };
+    }
+
+    handleClick() {
+        this.setState({
+            isOpen: !this.state.isOpen
+        }, () => {
+          // Now you can safely read from this.state
+          if (this.props.onToggle) {
+            this.props.onToggle(this.state.isOpen);
+          }
+        });
+    }
+
+    handleClickWithArrow = () => {
+        this.setState({
+            isOpen: !this.state.isOpen
+        });
+    };
+
+    render() {
+        let summaryClassName = 'content-toggle-summary';
+
+        if (this.state.isOpen) {
+            summaryClassName += ' content-toggle-summary-open';
+        }
+
+        return (
+            <div className="content-toggle">
+                <button
+                    onClick={() => this.handleClick()}
+                    className={summaryClassName}
+                >
+                    <span>{this.props.summary}</span>
+                </button>
+                <button
+                    onClick={this.handleClickWithArrow}
+                    className={summaryClassName}
+                >
+                    <span>{`${this.props.summary} with arrow`}</span>
+                </button>
+                {this.state.isOpen && (
+                    <div className="content-toggle-details">
+                        {this.props.children}
+                    </div>
+                )}
+            </div>
+        );
+    }
 }
 
-function ContentToggle() {
-  let summaryClassName = "content-toggle-summary";
+class App extends React.Component {
+    state = { numToggles: 0 };
 
-  if (isOpen) {
-    summaryClassName += " content-toggle-summary-open";
-  }
+    handleToggle = () => {
+        this.setState({
+            numToggles: this.state.numToggles + 1
+        });
+    };
 
-  return (
-    <div className="content-toggle">
-      <button onClick={handleClick} className={summaryClassName}>
-        Tacos
-      </button>
-      {isOpen && (
-        <div className="content-toggle-details">
-          <p>
-            A taco is a traditional Mexican dish composed of a corn or
-            wheat tortilla folded or rolled around a filling.
-          </p>
-        </div>
-      )}
-    </div>
-  );
+    render() {
+        return (
+            <div>
+                <p>Number of toggles: {this.state.numToggles}</p>
+
+                <ContentToggle summary="Burritos" onToggle={this.handleToggle}>
+                    <p>
+                        A Burrito is a traditional Mexican dish composed of a
+                        corn or wheat tortilla folded or rolled around a
+                        filling.
+                    </p>
+                </ContentToggle>
+
+                <ContentToggle summary="Tacos" onToggle={this.handleToggle}>
+                    <p>
+                        A taco is a traditional Mexican dish composed of a corn
+                        or wheat tortilla folded or rolled around a filling.
+                    </p>
+                </ContentToggle>
+            </div>
+        );
+    }
 }
 
-function updateThePage() {
-  ReactDOM.render(<ContentToggle />, document.getElementById("app"));
-}
-
-updateThePage();
+ReactDOM.render(<App />, document.getElementById('app'));
 
 ////////////////////////////////////////////////////////////////////////////////
 // What happens when we want to render 2 <ContentToggle>s? Shared mutable state!

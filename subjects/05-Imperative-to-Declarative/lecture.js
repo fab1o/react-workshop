@@ -1,64 +1,64 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
-import createOscillator from "./utils/createOscillator";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+import createOscillator from './utils/createOscillator';
 
 const styles = {};
 
 styles.theremin = {
-  height: 200,
-  width: 200,
-  fontSize: 10,
-  border: "1px solid",
-  cursor: "crosshair",
-  margin: 10,
-  display: "inline-block"
+    height: 200,
+    width: 200,
+    fontSize: 10,
+    border: '1px solid',
+    cursor: 'crosshair',
+    margin: 10,
+    display: 'inline-block'
 };
 
 class App extends React.Component {
-  componentDidMount() {
-    this.oscillator = createOscillator();
-  }
+    componentDidMount() {
+        this.oscillator = createOscillator();
+    }
 
-  play = () => {
-    this.oscillator.play();
-  };
+    play = () => {
+        this.oscillator.play();
+    };
 
-  stop = () => {
-    this.oscillator.stop();
-  };
+    stop = () => {
+        this.oscillator.stop();
+    };
 
-  changeTone = event => {
-    const { clientX, clientY } = event;
-    const {
-      top,
-      right,
-      bottom,
-      left
-    } = event.target.getBoundingClientRect();
-    const pitch = (clientX - left) / (right - left);
-    const volume = 1 - (clientY - top) / (bottom - top);
+    changeTone = event => {
+        const { clientX, clientY } = event;
+        const {
+            top,
+            right,
+            bottom,
+            left
+        } = event.target.getBoundingClientRect();
+        const pitch = (clientX - left) / (right - left);
+        const volume = 1 - (clientY - top) / (bottom - top);
 
-    this.oscillator.setPitchBend(pitch);
-    this.oscillator.setVolume(volume);
-  };
+        this.oscillator.setPitchBend(pitch);
+        this.oscillator.setVolume(volume);
+    };
 
-  render() {
-    return (
-      <div>
-        <h1>What does it mean to be declarative?</h1>
-        <div
-          style={styles.theremin}
-          onMouseEnter={this.play}
-          onMouseLeave={this.stop}
-          onMouseMove={this.changeTone}
-        />
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div>
+                <h1>What does it mean to be declarative?</h1>
+                <div
+                    style={styles.theremin}
+                    onMouseEnter={this.play}
+                    onMouseLeave={this.stop}
+                    onMouseMove={this.changeTone}
+                />
+            </div>
+        );
+    }
 }
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById('app'));
 
 ////////////////////////////////////////////////////////////////////////////////
 // Can't predict what the sound is going to be by looking at state or the render

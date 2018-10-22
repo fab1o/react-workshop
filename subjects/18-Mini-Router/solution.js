@@ -25,65 +25,65 @@
 //
 // - Implement <Redirect> or <Switch>
 ////////////////////////////////////////////////////////////////////////////////
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 // You will be working in mini-router.js. This file is just an example app that
 // uses the components from that library.
-import { Router, Route, Link } from "./solution/mini-router";
+import { Router, Route, Link } from './solution/mini-router';
 
 function App() {
-  return (
-    <Router>
-      <div>
-        <ul>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/topics">Topics</Link>
-          </li>
-        </ul>
-
-        <hr />
-
-        <Route
-          path="/dashboard"
-          render={() => (
+    return (
+        <Router>
             <div>
-              <h2>Dashboard</h2>
+                <ul>
+                    <li>
+                        <Link to="/dashboard">Dashboard</Link>
+                    </li>
+                    <li>
+                        <Link to="/about">About</Link>
+                    </li>
+                    <li>
+                        <Link to="/topics">Topics</Link>
+                    </li>
+                </ul>
+
+                <hr />
+
+                <Route
+                    path="/dashboard"
+                    render={() => (
+                        <div>
+                            <h2>Dashboard</h2>
+                        </div>
+                    )}
+                />
+                <Route path="/about" component={About} />
+                <Route path="/topics" component={Topics} />
             </div>
-          )}
-        />
-        <Route path="/about" component={About} />
-        <Route path="/topics" component={Topics} />
-      </div>
-    </Router>
-  );
+        </Router>
+    );
 }
 
 function About() {
-  return (
-    <div>
-      <h2>About</h2>
-    </div>
-  );
+    return (
+        <div>
+            <h2>About</h2>
+        </div>
+    );
 }
 
 function Topics() {
-  return (
-    <div>
-      <h2>Topics</h2>
-      <ul>
-        <li>Rendering with React</li>
-        <li>Components</li>
-        <li>Props v. State</li>
-      </ul>
-    </div>
-  );
+    return (
+        <div>
+            <h2>Topics</h2>
+            <ul>
+                <li>Rendering with React</li>
+                <li>Components</li>
+                <li>Props v. State</li>
+            </ul>
+        </div>
+    );
 }
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById('app'));

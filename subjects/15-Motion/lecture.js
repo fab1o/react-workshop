@@ -1,31 +1,31 @@
-import "./styles.css";
+import './styles.css';
 
-import React from "react";
-import ReactDOM from "react-dom";
-import { Motion, StaggeredMotion, spring, presets } from "react-motion";
-import $ from "jquery";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Motion, StaggeredMotion, spring, presets } from 'react-motion';
+import $ from 'jquery';
 
 class ToggleSwitch extends React.Component {
-  state = {
-    isActive: false
-  };
+    state = {
+        isActive: false
+    };
 
-  toggle = () => {
-    this.setState({ isActive: !this.state.isActive });
-  };
+    toggle = () => {
+        this.setState({ isActive: !this.state.isActive });
+    };
 
-  render() {
-    const x = this.state.isActive ? 400 : 0;
+    render() {
+        const x = this.state.isActive ? 400 : 0;
 
-    return (
-      <div className="toggle-switch switch1" onClick={this.toggle}>
-        <div className="toggle-switch-knob" style={{ left: x }} />
-      </div>
-    );
-  }
+        return (
+            <div className="toggle-switch switch1" onClick={this.toggle}>
+                <div className="toggle-switch-knob" style={{ left: x }} />
+            </div>
+        );
+    }
 }
 
-ReactDOM.render(<ToggleSwitch />, document.getElementById("app"));
+ReactDOM.render(<ToggleSwitch />, document.getElementById('app'));
 
 ///////////////////////////////////////////////////////////////////////////////
 // We can integrate with other DOM animation libraries by doing imperative work

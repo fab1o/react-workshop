@@ -1,5 +1,5 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 ////////////////////////////////////////////////////////////////////////////////
 // React elements are plain JavaScript objects created with `createElement`
@@ -21,24 +21,33 @@ import ReactDOM from "react-dom";
 
 ////////////////////////////////////////////////////////////////////////////////
 // And build up more UI
-// const element = React.createElement(
-//   "div",
-//   null,
-//   React.createElement(
-//     "h1",
-//     { className: "hot" },
-//     "These are just objects"
-//   ),
-//   React.createElement(
-//     "select",
-//     { value: "2" },
-//     React.createElement("option", { value: "1" }, "one"),
-//     React.createElement("option", { value: "2" }, "two"),
-//     React.createElement("option", { value: "3" }, "three")
-//   )
-// );
 
-// ReactDOM.render(element, document.getElementById("app"));
+function ItemList() {
+    const data = ['one', 'two', 'three'];
+
+    const element = (
+        <div>
+            <select
+                onChange={event => {
+                    console.log(event.target.value);
+                }}
+            >
+                {data.map((
+                    item,
+                    index // return statement is implicit because () instead of {}
+                ) => (
+                    <option key={index} value={item}>
+                        {item}
+                    </option>
+                ))}
+            </select>
+        </div>
+    );
+
+    return element;
+}
+
+ReactDOM.render(<ItemList />, document.getElementById('app'));
 
 ////////////////////////////////////////////////////////////////////////////////
 // Lets look at one of them in the console

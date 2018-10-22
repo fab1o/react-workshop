@@ -1,1 +1,1 @@
-import "./exercise/index.js";
+import './exercise/index.js';

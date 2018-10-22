@@ -13,27 +13,27 @@
 //   c) The new component, when rendered, will pass state from
 //      the store as props to your App component. You'll use the function
 //      passed to `connect` to map store state to component props
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import createStore from "./solution/mini-redux/createStore";
-import Provider from "./solution/mini-redux/Provider";
+import createStore from './solution/mini-redux/createStore';
+import Provider from './solution/mini-redux/Provider';
 
-import App from "./solution/App";
+import App from './solution/App';
 
 const store = createStore((state = 0, action) => {
-  if (action.type === "INCREMENT") {
-    return state + 1;
-  } else if (action.type === "DECREMENT") {
-    return state - 1;
-  } else {
-    return state;
-  }
+    if (action.type === 'INCREMENT') {
+        return state + 1;
+    } else if (action.type === 'DECREMENT') {
+        return state - 1;
+    } else {
+        return state;
+    }
 });
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById("app")
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('app')
 );

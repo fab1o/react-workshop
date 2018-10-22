@@ -1,21 +1,21 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import serializeForm from "form-serialize";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import serializeForm from 'form-serialize';
 
 class App extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>Forms</h1>
-        <form>
-          <input type="text" />
-        </form>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div>
+                <h1>Forms</h1>
+                <form>
+                    <input type="text" />
+                </form>
+            </div>
+        );
+    }
 }
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById('app'));
 
 ////////////////////////////////////////////////////////////////////////////////
 // Give the <input> a default value.

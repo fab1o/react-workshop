@@ -1,78 +1,86 @@
-import "./styles.css";
+import './styles.css';
 
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 class ContentToggle extends React.Component {
-  state = { isOpen: false };
+    static getDerivedStateFromProps(nextProps) {
 
-  handleClick = () => {
-    this.setState({ isOpen: !this.state.isOpen }, () => {
-      if (this.props.onToggle) {
-        this.props.onToggle(this.state.isOpen);
-      }
-    });
-  };
-
-  render() {
-    let summaryClassName = "content-toggle-summary";
-
-    if (this.state.isOpen) {
-      summaryClassName += " content-toggle-summary-open";
     }
+    
+    state = { isOpen: false };
 
-    return (
-      <div style={this.props.style} className="content-toggle">
-        <button onClick={this.handleClick} className={summaryClassName}>
-          {this.props.summary}
-        </button>
-        <div className="content-toggle-details">
-          {this.state.isOpen && this.props.children}
-        </div>
-      </div>
-    );
-  }
+    handleClick = () => {
+        this.setState({ isOpen: !this.state.isOpen }, () => {
+            if (this.props.onToggle) {
+                this.props.onToggle(this.state.isOpen);
+            }
+        });
+    };
+
+    render() {
+        const { isOpen } = this.state;
+
+        let summaryClassName = 'content-toggle-summary';
+
+        if (isOpen) {
+            summaryClassName += ' content-toggle-summary-open';
+        }
+
+        return (
+            <div style={this.props.style} className="content-toggle">
+                <button onClick={this.handleClick} className={summaryClassName}>
+                    {this.props.summary}
+                </button>
+                <div className="content-toggle-details">
+                    {isOpen && this.props.children}
+                </div>
+            </div>
+        );
+    }
 }
 
-import carnitas from "./images/carnitas.png";
-import pollo from "./images/pollo.png";
-import asada from "./images/asada.png";
+import carnitas from './images/carnitas.png';
+import pollo from './images/pollo.png';
+import asada from './images/asada.png';
 
 class App extends React.Component {
-  state = {
-    tacos: [
-      { id: 0, name: "Carnitas", src: carnitas },
-      { id: 1, name: "Pollo", src: pollo },
-      { id: 2, name: "Asada", src: asada }
-    ]
-  };
+    state = {
+        tacos: [
+            { id: 0, name: 'Carnitas', src: carnitas },
+            { id: 1, name: 'Pollo', src: pollo },
+            { id: 2, name: 'Asada', src: asada }
+        ]
+    };
 
-  render() {
-    return (
-      <div>
-        <div>
-          {this.state.tacos.map(taco => (
-            <ContentToggle
-              key={taco.name}
-              style={{ width: 300 }}
-              summary={taco.name}
-            >
-              <div
-                style={{
-                  height: 200,
-                  background: `url(${taco.src})`,
-                  backgroundSize: "cover"
-                }}
-              />
-            </ContentToggle>
-          ))}
-        </div>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div>
+                <button>Toggle All</button>
+                <div>
+                    {this.state.tacos.map(taco => (
+                        <ContentToggle
+                            key={taco.name}
+                            style={{ width: 300 }}
+                            summary={taco.name}
+                            isOpen={true}
+                        >
+                            <div
+                                style={{
+                                    height: 200,
+                                    background: `url(${taco.src})`,
+                                    backgroundSize: 'cover'
+                                }}
+                            />
+                        </ContentToggle>
+                    ))}
+                </div>
+            </div>
+        );
+    }
 }
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById('app'));
 
 ////////////////////////////////////////////////////////////////////////////
 // But what about when we add this feature?

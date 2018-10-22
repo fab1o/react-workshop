@@ -1,103 +1,104 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
-import * as styles from "./styles";
+import * as styles from './styles';
 
 function TabList({ children, _activeIndex, _onTabSelect }) {
-  return (
-    <div style={styles.tabs}>
-      {React.Children.map(children, (child, index) =>
-        React.cloneElement(child, {
-          _isActive: index === _activeIndex,
-          _onSelect: () => _onTabSelect(index)
-        })
-      )}
-    </div>
-  );
+    return (
+        <div style={styles.tabs}>
+            {React.Children.map(children, (child, index) =>
+                React.cloneElement(child, {
+                    _isActive: index === _activeIndex,
+                    _onSelect: () => _onTabSelect(index)
+                })
+            )}
+        </div>
+    );
 }
 
 function Tab({ children, disabled, _isActive, _onSelect }) {
-  return (
-    <div
-      style={
-        disabled
-          ? styles.disabledTab
-          : _isActive
-            ? styles.activeTab
-            : styles.tab
-      }
-      onClick={disabled ? null : _onSelect}
-    >
-      {children}
-    </div>
-  );
+    return (
+        <div
+            style={
+                disabled
+                    ? styles.disabledTab
+                    : _isActive
+                        ? styles.activeTab
+                        : styles.tab
+            }
+            onClick={disabled ? null : _onSelect}
+        >
+            {children}
+        </div>
+    );
 }
 
 function TabPanels({ children, _activeIndex }) {
-  return (
-    <div style={styles.tabPanels}>
-      {React.Children.toArray(children)[_activeIndex]}
-    </div>
-  );
+    return (
+        <div style={styles.tabPanels}>
+            {React.Children.toArray(children)[_activeIndex]}
+        </div>
+    );
 }
 
 function TabPanel({ children }) {
-  return <div>{children}</div>;
+    return <div>{children}</div>;
 }
 
 class Tabs extends React.Component {
-  state = { activeIndex: 0 };
+    state = { activeIndex: 0 };
 
-  render() {
-    const children = React.Children.map(
-      this.props.children,
-      (child, index) => {
-        if (child.type === TabPanels) {
-          return React.cloneElement(child, {
-            _activeIndex: this.state.activeIndex
-          });
-        } else if (child.type === TabList) {
-          return React.cloneElement(child, {
-            _activeIndex: this.state.activeIndex,
-            _onTabSelect: index => this.setState({ activeIndex: index })
-          });
-        } else {
-          return child;
-        }
-      }
-    );
+    render() {
+        const children = React.Children.map(
+            this.props.children,
+            (child, index) => {
+                if (child.type === TabPanels) {
+                    return React.cloneElement(child, {
+                        _activeIndex: this.state.activeIndex
+                    });
+                } else if (child.type === TabList) {
+                    return React.cloneElement(child, {
+                        _activeIndex: this.state.activeIndex,
+                        _onTabSelect: index =>
+                            this.setState({ activeIndex: index })
+                    });
+                } else {
+                    return child;
+                }
+            }
+        );
 
-    return <div>{children}</div>;
-  }
+        return <div>{children}</div>;
+    }
 }
 
 function App() {
-  return (
-    <div>
-      <Tabs>
-        <TabList>
-          <Tab>Tacos</Tab>
-          <Tab disabled>Burritos</Tab>
-          <Tab>Coconut Korma</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>
-            <p>Tacos are delicious</p>
-          </TabPanel>
-          <TabPanel>
-            <p>Sometimes a burrito is what you really need</p>
-          </TabPanel>
-          <TabPanel>
-            <p>Might be your best option</p>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-    </div>
-  );
+    return (
+        <div>
+            <Tabs>
+                <TabList>
+                    <Tab>Tacos</Tab>
+                    <Tab disabled>Burritos</Tab>
+                    <Tab>Coconut Korma</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
+                        <p>Tacos are delicious</p>
+                    </TabPanel>
+                    <TabPanel>
+                        <p>Sometimes a burrito is what you really need</p>
+                    </TabPanel>
+                    <TabPanel>
+                        <p>Might be your best option</p>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
+        </div>
+    );
 }
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById('app'));
 
 ////////////////////////////////////////////////////////////////////////////////
 // Sometimes you don't want to specify how deep in the view tree the child

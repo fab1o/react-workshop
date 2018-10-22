@@ -11,114 +11,108 @@
 // - Add a "drop hint" element that indicates which element will receive
 //   the marker when it is dropped to improve usability
 ////////////////////////////////////////////////////////////////////////////////
-import "./styles.css";
+import './styles.css';
 
-import React from "react";
-import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
-import { Motion, spring } from "react-motion";
-import Draggable from "./components/Draggable";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+import { Motion, spring } from 'react-motion';
+import Draggable from './components/Draggable';
 
 class DropGrid extends React.Component {
-  state = {
-    isDraggingMarker: false,
-    startX: 0,
-    startY: 0,
-    mouseX: 0,
-    mouseY: 0
-  };
-
-  getRelativeXY({ clientX, clientY }) {
-    const { offsetLeft, offsetTop } = this.node;
-
-    return {
-      x: clientX - offsetLeft,
-      y: clientY - offsetTop
+    state = {
+        isDraggingMarker: false,
+        startX: 0,
+        startY: 0,
+        mouseX: 0,
+        mouseY: 0
     };
-  }
 
-  handleDragStart = event => {
-    const { x, y } = this.getRelativeXY(event);
-    const { offsetLeft, offsetTop } = event.target;
+    getRelativeXY({ clientX, clientY }) {
+        const { offsetLeft, offsetTop } = this.node;
 
-    // Prevent Chrome from displaying a text cursor
-    event.preventDefault();
-
-    this.setState({
-      isDraggingMarker: true,
-      startX: x - offsetLeft,
-      startY: y - offsetTop,
-      mouseX: x,
-      mouseY: y
-    });
-  };
-
-  handleDrag = event => {
-    const { x, y } = this.getRelativeXY(event);
-
-    this.setState({
-      mouseX: x,
-      mouseY: y
-    });
-  };
-
-  handleDrop = () => {
-    this.setState({ isDraggingMarker: false });
-  };
-
-  render() {
-    const {
-      isDraggingMarker,
-      startX,
-      startY,
-      mouseX,
-      mouseY
-    } = this.state;
-
-    let markerLeft, markerTop;
-    if (isDraggingMarker) {
-      markerLeft = mouseX - startX;
-      markerTop = mouseY - startY;
-    } else {
-      markerLeft =
-        Math.floor(Math.max(0, Math.min(449, mouseX)) / 150) * 150;
-      markerTop =
-        Math.floor(Math.max(0, Math.min(449, mouseY)) / 150) * 150;
+        return {
+            x: clientX - offsetLeft,
+            y: clientY - offsetTop
+        };
     }
 
-    const bouncySpring = style =>
-      spring(style, { stiffness: 170, damping: 8 });
+    handleDragStart = event => {
+        const { x, y } = this.getRelativeXY(event);
+        const { offsetLeft, offsetTop } = event.target;
 
-    const markerStyle = {
-      left: isDraggingMarker ? markerLeft : bouncySpring(markerLeft),
-      top: isDraggingMarker ? markerTop : bouncySpring(markerTop)
+        // Prevent Chrome from displaying a text cursor
+        event.preventDefault();
+
+        this.setState({
+            isDraggingMarker: true,
+            startX: x - offsetLeft,
+            startY: y - offsetTop,
+            mouseX: x,
+            mouseY: y
+        });
     };
 
-    return (
-      <div className="grid" ref={node => (this.node = node)}>
-        <Motion style={markerStyle}>
-          {style => (
-            <Draggable
-              className="grid-marker"
-              style={style}
-              onDragStart={this.handleDragStart}
-              onDrag={this.handleDrag}
-              onDrop={this.handleDrop}
-            />
-          )}
-        </Motion>
-        <div className="grid-cell">1</div>
-        <div className="grid-cell">2</div>
-        <div className="grid-cell">3</div>
-        <div className="grid-cell">4</div>
-        <div className="grid-cell">5</div>
-        <div className="grid-cell">6</div>
-        <div className="grid-cell">7</div>
-        <div className="grid-cell">8</div>
-        <div className="grid-cell">9</div>
-      </div>
-    );
-  }
+    handleDrag = event => {
+        const { x, y } = this.getRelativeXY(event);
+
+        this.setState({
+            mouseX: x,
+            mouseY: y
+        });
+    };
+
+    handleDrop = () => {
+        this.setState({ isDraggingMarker: false });
+    };
+
+    render() {
+        const { isDraggingMarker, startX, startY, mouseX, mouseY } = this.state;
+
+        let markerLeft, markerTop;
+        if (isDraggingMarker) {
+            markerLeft = mouseX - startX;
+            markerTop = mouseY - startY;
+        } else {
+            markerLeft =
+                Math.floor(Math.max(0, Math.min(449, mouseX)) / 150) * 150;
+            markerTop =
+                Math.floor(Math.max(0, Math.min(449, mouseY)) / 150) * 150;
+        }
+
+        const bouncySpring = style =>
+            spring(style, { stiffness: 170, damping: 8 });
+
+        const markerStyle = {
+            left: isDraggingMarker ? markerLeft : bouncySpring(markerLeft),
+            top: isDraggingMarker ? markerTop : bouncySpring(markerTop)
+        };
+
+        return (
+            <div className="grid" ref={node => (this.node = node)}>
+                <Motion style={markerStyle}>
+                    {style => (
+                        <Draggable
+                            className="grid-marker"
+                            style={style}
+                            onDragStart={this.handleDragStart}
+                            onDrag={this.handleDrag}
+                            onDrop={this.handleDrop}
+                        />
+                    )}
+                </Motion>
+                <div className="grid-cell">1</div>
+                <div className="grid-cell">2</div>
+                <div className="grid-cell">3</div>
+                <div className="grid-cell">4</div>
+                <div className="grid-cell">5</div>
+                <div className="grid-cell">6</div>
+                <div className="grid-cell">7</div>
+                <div className="grid-cell">8</div>
+                <div className="grid-cell">9</div>
+            </div>
+        );
+    }
 }
 
-ReactDOM.render(<DropGrid />, document.getElementById("app"));
+ReactDOM.render(<DropGrid />, document.getElementById('app'));

@@ -14,66 +14,78 @@
 // Refactor <Tabs> from a class into a pure function that takes props as an
 // argument and returns an element (JSX).
 ////////////////////////////////////////////////////////////////////////////////
-import React from "react";
-import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
-import * as styles from "./styles";
-import data from "./data";
+import * as styles from './styles';
+import data from './data';
 
-class Tabs extends React.Component {
-  static propTypes = {
-    data: PropTypes.array.isRequired
-  };
+function Tabs(props) {
+    const tabs = props.data.map((item, index) => {
+        const isActive = index === props.activeIndex;
+        const style = isActive ? styles.activeTab : styles.tab;
 
-  state = { activeIndex: 0 };
-
-  selectTab = index => this.setState({ activeIndex: index });
-
-  render() {
-    const tabs = this.props.data.map((item, index) => {
-      const isActive = index === this.state.activeIndex;
-      const style = isActive ? styles.activeTab : styles.tab;
-
-      return (
-        <div
-          key={index}
-          className="Tab"
-          style={style}
-          onClick={() => this.selectTab(index)}
-        >
-          {item.name}
-        </div>
-      );
+        return (
+            <div
+                key={index}
+                className="Tab"
+                style={style}
+                onClick={() => props.toggle(index)}
+            >
+                {item.name}
+            </div>
+        );
     });
 
-    const activeItem = this.props.data[this.state.activeIndex];
+    const activeItem = props.data[props.activeIndex];
 
     return (
-      <div className="Tabs">
-        {tabs}
-        <div className="TabPanel" style={styles.panel}>
-          {activeItem && activeItem.description}
+        <div className="Tabs">
+            {tabs}
+            <div className="TabPanel" style={styles.panel}>
+                {activeItem && activeItem.description}
+            </div>
         </div>
-      </div>
     );
-  }
 }
+
+Tabs.propTypes = {
+    activeIndex: PropTypes.number.isRequired,
+    toggle: PropTypes.func.isRequired
+};
 
 class App extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>Props v. State</h1>
+    state = {
+        activeIndex: 0
+    };
 
-        <button>Go to "Step 2"</button>
+    render() {
+        return (
+            <div>
+                <h1>Props v. State</h1>
+                <button
+                    onClick={() => {
+                        this.setState({
+                            activeIndex: 1
+                        });
+                    }}
+                >
+                    Go to "Step 2"
+                </button>
 
-        <Tabs data={this.props.tabs} />
-      </div>
-    );
-  }
+                <Tabs
+                    data={this.props.tabs}
+                    activeIndex={this.state.activeIndex}
+                    toggle={index => {
+                        this.setState({
+                            activeIndex: index
+                        });
+                    }}
+                />
+            </div>
+        );
+    }
 }
 
-ReactDOM.render(<App tabs={data} />, document.getElementById("app"));
-
-require("./tests").run();
+ReactDOM.render(<App tabs={data} />, document.getElementById('app'));
